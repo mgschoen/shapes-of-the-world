@@ -16,6 +16,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: config.siteName || 'Playground',
       template: 'index.html',
+      templateParameters: {
+        mapboxPublicToken: process.env.MAPBOX_PUBLIC_TOKEN
+          ? Buffer.from(process.env.MAPBOX_PUBLIC_TOKEN).toString('base64')
+          : '',
+      }
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[fullhash].css",
