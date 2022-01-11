@@ -1,6 +1,5 @@
 <script>
-import { onMount } from 'svelte';
-
+    import { onMount } from 'svelte';
     import Map from './components/Map.svelte';
 
     let metadata;

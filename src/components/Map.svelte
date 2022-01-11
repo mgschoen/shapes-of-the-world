@@ -1,11 +1,11 @@
 <script>
     import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
+    import bbox from '@turf/bbox'
     import { onDestroy, onMount } from 'svelte';
     import { settings } from '../store';
 
     export let geojson;
-    // export let center = [0,0];
-    // export let scale = 16;
+    export let cameraBoundingBox;
 
     let map;
     let isMapLoaded = false;
@@ -34,6 +34,18 @@
                 'line-width': 8
             }
         });
+        const boundingBox = bbox(geojson);
+        map.fitBounds([
+            boundingBox.slice(0,2),
+            boundingBox.slice(2,4),
+        ], { padding: 100 });
+    }
+
+    $: if (map && isMapLoaded && Array.isArray(cameraBoundingBox) && cameraBoundingBox.length >= 4) {
+        map.fitBounds([
+            cameraBoundingBox.slice(0,2),
+            cameraBoundingBox.slice(2,4),
+        ]);
     }
 
     onMount(() => {
@@ -42,7 +54,8 @@
         }
         map = new mapboxgl.Map({
             container: 'mapbox-root',
-            style: 'mapbox://styles/argonns/ckxf3oh2k2xmo15phqc819m15'
+            style: 'mapbox://styles/argonns/ckxf3oh2k2xmo15phqc819m15',
+            renderWorldCopies: false,
         });
         map.on('load', () => isMapLoaded = true);
     });
