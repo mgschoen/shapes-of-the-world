@@ -12,6 +12,13 @@ module.exports = {
   entry: {
     index: './src/index.js',
   },
+  resolve: {
+    alias: {
+      svelte: path.resolve('node_modules', 'svelte')
+    },
+    extensions: ['.mjs', '.js', '.svelte'],
+    mainFields: ['svelte', 'browser', 'module', 'main']
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: config.siteName || 'Playground',
@@ -35,6 +42,16 @@ module.exports = {
           'css-loader',
           'postcss-loader',
         ]
+      },
+      {
+        test: /\.svelte$/,
+        use: 'svelte-loader',
+      },
+      {
+        test: /node_modules\/svelte\/.*\.mjs$/,
+        resolve: {
+          fullySpecified: false
+        }
       }
     ],
   },
