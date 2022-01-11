@@ -1,4 +1,4 @@
-import { readable } from 'svelte/store';
+import { readable, writable } from 'svelte/store';
 
 const settingsElement = document.querySelector('script[type="settings+json"]');
 let settingsData = {};
@@ -9,3 +9,8 @@ if (settingsData && settingsData.mapboxPublicToken) {
     settingsData.mapboxPublicToken = atob(settingsData.mapboxPublicToken);
 }
 export const settings = readable(settingsData);
+
+export const metadata = writable();
+export const country = writable();
+export const geojson = writable();
+export const isLoading = writable(false);
