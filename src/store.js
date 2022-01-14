@@ -40,5 +40,5 @@ export const geojson = writable();
 // view state
 export const isLoading = writable(false);
 // TODO Debugging only
-export const modal = writable('splash');
+export const modal = writable('');
 // END TODO

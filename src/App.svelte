@@ -6,6 +6,7 @@
     import Button from './components/Button.svelte';
     import ControlsDebuggingHandles from './components/ControlsDebuggingHandles.svelte';
     import ControlsDebuggingOutput from './components/ControlsDebuggingOutput.svelte';
+    import ControlsInput from './components/ControlsInput.svelte';
     import Map from './components/Map.svelte';
     import Modal from './components/Modal.svelte';
     import ModalViewGameOver from './components/ModalViewGameOver.svelte';
@@ -32,6 +33,10 @@
 <main class="text-slate-800">
     <ControlsDebuggingHandles bind:showMap={showMap} on:update-requested={updateCountry}/>
     <ControlsDebuggingOutput />
+
+    {#if !$modal}
+        <ControlsInput />
+    {/if}
     
     {#if showMap}
         <Map geojson={$geojson}></Map>
