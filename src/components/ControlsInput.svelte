@@ -58,11 +58,11 @@
     }
 
     $: value & updateSuggestions();
-    $: canSubmit = suggestions.length === 1 && suggestions[0].name === value;
+    $: canSubmit = $metadata && $metadata.countries && $metadata.countries.filter((country) => country.name === value).length === 1;
 </script>
 
 <section class="fixed bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-auto z-10">
-    <h2 class="hidden">Input your answer</h2>
+    <h2 class="hidden">Select your answer</h2>
     {#if suggestions.length && !canSubmit}
         <ul
             class="bg-white mb-2 rounded-md shadow-sm flex flex-col"

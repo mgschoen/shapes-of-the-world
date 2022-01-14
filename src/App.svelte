@@ -3,7 +3,6 @@
     import { country, geojson, metadata, isLoading, modal } from './store';
     import { fetchJson } from './utils';
 
-    import Button from './components/Button.svelte';
     import ControlsDebuggingHandles from './components/ControlsDebuggingHandles.svelte';
     import ControlsDebuggingOutput from './components/ControlsDebuggingOutput.svelte';
     import ControlsInput from './components/ControlsInput.svelte';
