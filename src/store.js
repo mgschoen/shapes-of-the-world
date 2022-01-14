@@ -1,4 +1,4 @@
-import { readable, writable } from 'svelte/store';
+import { readable, writable, derived } from 'svelte/store';
 
 const settingsElement = document.querySelector('script[type="settings+json"]');
 let settingsData = {};
@@ -8,13 +8,37 @@ try {
 if (settingsData && settingsData.mapboxPublicToken) {
     settingsData.mapboxPublicToken = atob(settingsData.mapboxPublicToken);
 }
-export const settings = readable(settingsData);
 
+const calculatePool = ([ $metadata, $history ]) => {
+    if (!$metadata || !Array.isArray($metadata.countries)) {
+        return [];
+    }
+    return $metadata.countries
+        .map((country) => country.short)
+        .filter((country) => !$history.includes(country));
+};
+
+const highscoreLocalStorageKey = 'map-quiz_highscore';
+let localStorageHighscore;
+try {
+    localStorageHighscore = parseInt(localStorage.getItem(highscoreLocalStorageKey));
+} catch (_) {/* do nothing */}
+const highscoreStore = writable(localStorageHighscore || 0);
+highscoreStore.subscribe(($highscore) => localStorage.setItem(highscoreLocalStorageKey, '' + $highscore));
+
+// static globals
+export const settings = readable(settingsData);
 export const metadata = writable();
+
+// application model
+export const history = writable([]);
+export const pool = derived([ metadata, history ], calculatePool);
+export const highscore = highscoreStore;
 export const country = writable();
 export const geojson = writable();
-export const isLoading = writable(false);
 
+// view state
+export const isLoading = writable(false);
 // TODO Debugging only
 export const isModalOpen = writable(false);
 // END TODO
