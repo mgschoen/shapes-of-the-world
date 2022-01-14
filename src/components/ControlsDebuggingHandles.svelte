@@ -1,7 +1,9 @@
 <script>
-    import { metadata, country, geojson, isLoading } from '../store';
+    import { metadata, country, geojson, isLoading, isModalOpen } from '../store';
     import { createEventDispatcher } from 'svelte'
-    let dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
+
+    import Button from './Button.svelte';
 
     export let showMap = false;
     let refreshDisabled = false;
@@ -9,14 +11,23 @@
 </script>
 
 <section class="fixed top-4 left-4 z-10 flex items-center space-x-4">
-    <label for="showMap">
-        <input id="showMap" type="checkbox" bind:checked={showMap} />
-        Karte anzeigen
-    </label>
+    <ul class="flex flex-col">
+        <li>
+            <label for="showMap">
+                <input id="showMap" type="checkbox" bind:checked={showMap} />
+                Karte anzeigen
+            </label>
+        </li>
+        <li>
+            <label for="showModal">
+                <input id="showModal" type="checkbox" bind:checked={$isModalOpen} />
+                Modal anzeigen
+            </label>
+        </li>
+    </ul>
 
-    <button
-        class="border-2 border-black px-2 py-1 hover:bg-lime-200 disabled:opacity-50"
+    <Button
         on:click={() => dispatch('update-requested')}
         disabled={refreshDisabled}
-    >Neues Land laden</button>
+    >Neues Land laden</Button>
 </section>

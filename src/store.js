@@ -14,3 +14,7 @@ export const metadata = writable();
 export const country = writable();
 export const geojson = writable();
 export const isLoading = writable(false);
+
+// TODO Debugging only
+export const isModalOpen = writable(false);
+// END TODO

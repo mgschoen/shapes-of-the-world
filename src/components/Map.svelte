@@ -2,7 +2,7 @@
     import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
     import bbox from '@turf/bbox'
     import { onDestroy, onMount } from 'svelte';
-    import { settings } from '../store';
+    import { settings, isModalOpen } from '../store';
 
     export let geojson;
     export let cameraBoundingBox;
@@ -30,7 +30,7 @@
                 'line-cap': 'round'
             },
             'paint': {
-                'line-color': '#888',
+                'line-color': '#134e4a',
                 'line-width': 8
             }
         });
@@ -69,4 +69,8 @@
     });
 </script>
 
-<div id="mapbox-root" class="absolute inset-0 w-full h-full bg-orange-100"></div>
+<div
+    id="mapbox-root"
+    class="absolute inset-0 w-full h-full bg-orange-100 transition duration-300 ease-in-out"
+    class:blur-md={$isModalOpen}
+></div>
