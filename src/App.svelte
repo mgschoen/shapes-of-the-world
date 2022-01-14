@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { country, geojson, metadata, isLoading, isModalOpen } from './store';
+    import { country, geojson, metadata, isLoading, modal } from './store';
     import { fetchJson } from './utils';
 
     import Button from './components/Button.svelte';
@@ -8,6 +8,8 @@
     import ControlsDebuggingOutput from './components/ControlsDebuggingOutput.svelte';
     import Map from './components/Map.svelte';
     import Modal from './components/Modal.svelte';
+    import ModalViewGameOver from './components/ModalViewGameOver.svelte';
+    import ModalViewSplash from './components/ModalViewSplash.svelte';
 
     let showMap = true;
 
@@ -35,9 +37,13 @@
         <Map geojson={$geojson}></Map>
     {/if}
     
-    {#if $isModalOpen}
+    {#if !!$modal}
         <Modal>
-            <Button on:click={() => $isModalOpen = false}>Schließen</Button>
+            {#if $modal == 'splash'}
+                <ModalViewSplash/>
+            {:else if $modal == 'game-over'}
+                <ModalViewGameOver/>
+            {/if}
         </Modal>
     {/if}
 </main>

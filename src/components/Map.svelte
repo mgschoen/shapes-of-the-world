@@ -2,7 +2,7 @@
     import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
     import bbox from '@turf/bbox'
     import { onDestroy, onMount } from 'svelte';
-    import { settings, isModalOpen } from '../store';
+    import { settings, modal } from '../store';
 
     export let geojson;
     export let cameraBoundingBox;
@@ -72,5 +72,5 @@
 <div
     id="mapbox-root"
     class="absolute inset-0 w-full h-full bg-orange-100 transition duration-300 ease-in-out"
-    class:blur-md={$isModalOpen}
+    class:blur-md={!!$modal}
 ></div>

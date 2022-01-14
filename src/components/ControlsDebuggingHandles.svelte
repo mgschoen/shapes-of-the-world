@@ -1,5 +1,5 @@
 <script>
-    import { metadata, country, geojson, isLoading, isModalOpen } from '../store';
+    import { metadata, country, geojson, isLoading, modal } from '../store';
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher();
 
@@ -7,6 +7,7 @@
 
     export let showMap = false;
     let refreshDisabled = false;
+
     $: refreshDisabled = !$metadata || !$country || !$geojson || $isLoading;
 </script>
 
@@ -18,16 +19,19 @@
                 Karte anzeigen
             </label>
         </li>
-        <li>
-            <label for="showModal">
-                <input id="showModal" type="checkbox" bind:checked={$isModalOpen} />
-                Modal anzeigen
-            </label>
-        </li>
     </ul>
 
     <Button
         on:click={() => dispatch('update-requested')}
         disabled={refreshDisabled}
     >Neues Land laden</Button>
+
+    <label for="modal">
+        Modal anzeigen
+        <select id="modal" bind:value={$modal}>
+            <option value="">-</option>
+            <option value="splash">Splash</option>
+            <option value="game-over">Game Over</option>
+        </select>
+    </label>
 </section>
