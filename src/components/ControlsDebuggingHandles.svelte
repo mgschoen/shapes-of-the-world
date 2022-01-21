@@ -1,17 +1,10 @@
 <script>
-    import { metadata, country, geojson, isLoading, modal } from '../store';
-    import { createEventDispatcher } from 'svelte'
-    const dispatch = createEventDispatcher();
-
-    import Button from './Button.svelte';
+    import { highscore, modal } from '../store';
 
     export let showMap = false;
-    let refreshDisabled = false;
-
-    $: refreshDisabled = !$metadata || !$country || !$geojson || $isLoading;
 </script>
 
-<section class="fixed top-4 left-4 z-10 flex items-center space-x-4">
+<section class="fixed top-24 lg:top-4 left-4 z-10 flex items-center space-x-4">
     <ul class="flex flex-col">
         <li>
             <label for="showMap">
@@ -21,10 +14,14 @@
         </li>
     </ul>
 
-    <Button
-        on:click={() => dispatch('update-requested')}
-        disabled={refreshDisabled}
-    >Neues Land laden</Button>
+    <label for="highscore">
+        Highscore
+        <input
+            type="number"
+            bind:value={$highscore}
+            class="w-10 mx-1 px-2"
+        />
+    </label>
 
     <label for="modal">
         Modal anzeigen
