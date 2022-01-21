@@ -31,7 +31,7 @@
 
 <main class="text-slate-800">
     {#if !$modal}
-        <ControlsInput />
+        <ControlsInput on:update-requested={updateCountry} />
 
     {#if $debug}
         <ControlsDebuggingHandles bind:showMap={showMap} />
