@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { country, debug, geojson, isLoading, metadata, modal } from './store';
+    import { country, debug, geojson, highscore, history, isLoading, metadata, modal, pool, score } from './store';
     import { fetchJson } from './utils';
 
     import ControlsDebuggingHandles from './components/ControlsDebuggingHandles.svelte';
@@ -12,45 +12,79 @@
     import ModalViewGameOver from './components/ModalViewGameOver.svelte';
     import ModalViewSplash from './components/ModalViewSplash.svelte';
 
-    let showMap = true;
+    let hasHighscore = false;
 
-    async function updateCountry() {
+    async function setNextCountry() {
         $isLoading = true;
-        const randomIndex = Math.round(Math.random() * $metadata.countries.length);
-        $country = $metadata.countries[randomIndex];
+        const randomIndex = Math.round(Math.random() * $pool.length);
+        const nextCountryShort = $pool[randomIndex];
+        $country = $metadata.countries.find((country) => country.short === nextCountryShort);
         $geojson = await fetchJson(`/data/${$country.short}.geojson`);
         $isLoading = false;
+    }
+
+    function endGame() {
+        if ($score > $highscore) {
+            $highscore = $score;
+            hasHighscore = true;
+        }
+        $modal = 'game-over';
+    }
+
+    function onStartGame() {
+        $modal = '';
+        setNextCountry();
+    }
+
+    function onSubmit (event) {
+        if (event.detail === $country.name || event.detail === $country.short) {
+            $score += 1;
+            $history = [...$history, $country.short];
+            setNextCountry();
+        } else {
+            endGame();
+        }
+    }
+
+    function onRestartGame() {
+        $score = 0;
+        $history = [];
+        $country = null;
+        $geojson = null;
+        $modal = '';
+        hasHighscore = false;
+        setNextCountry();
     }
 
     onMount(async () => {
         $isLoading = true;
         $metadata = await fetchJson('/data/_meta.json');
         $isLoading = false;
-        updateCountry();
     });
 </script>
 
 <main class="text-slate-800">
     {#if !$modal}
-        <ControlsInput on:update-requested={updateCountry} />
+        <ControlsInput on:submit={onSubmit} />
         <ControlsScore />
     {/if}
 
     {#if $debug}
-        <ControlsDebuggingHandles bind:showMap={showMap} />
+        <ControlsDebuggingHandles />
         <ControlsDebuggingOutput />
     {/if}
     
-    {#if showMap}
-        <Map geojson={$geojson}></Map>
-    {/if}
+    <Map geojson={$geojson}></Map>
     
-    {#if !!$modal}
+    {#if $modal}
         <Modal>
             {#if $modal == 'splash'}
-                <ModalViewSplash/>
+                <ModalViewSplash on:start-game={onStartGame} />
             {:else if $modal == 'game-over'}
-                <ModalViewGameOver/>
+                <ModalViewGameOver
+                    showHighscore={hasHighscore}
+                    on:restart-game={onRestartGame}
+                />
             {/if}
         </Modal>
     {/if}

@@ -1,10 +1,13 @@
 <script>
-    import { modal, country } from '../store';
+    import { createEventDispatcher } from 'svelte';
+    import { country, highscore } from '../store';
     import Button from './Button.svelte';
     import ModalHeadline from './ModalHeadline.svelte';
     import ModalParagraph from './ModalParagraph.svelte';
 
-    let hasHighscore = true;
+    export let showHighscore = false;
+
+    let dispatch = createEventDispatcher();
     let solution = '';
 
     $: solution = $country && $country.name ? $country.name : '';
@@ -18,17 +21,17 @@
     Bummer, that was wrong! The country you just saw was <strong class="text-teal-900 font-bold">{solution}</strong>.
 </ModalParagraph>
 
-{#if hasHighscore}
+{#if showHighscore}
     <ModalParagraph disableGrow bold color="text-cyan-700">
         But hold your tears, you landed a new highscore:
     </ModalParagraph>
 
     <figure class="text-center text-cyan-700 mb-6 md:mb-10 w-64 m-auto">
-        <p class="text-7xl font-black">15</p>
+        <p class="text-7xl font-black">{$highscore}</p>
         <figcaption class="text-2xl">countries identified correctly</figcaption>
     </figure>
 {/if}
 
 <div class="text-center">
-    <Button on:click={() => $modal = ''}>Restart Game</Button>
+    <Button on:click={() => dispatch('restart-game')}>Restart Game</Button>
 </div>

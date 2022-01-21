@@ -36,11 +36,11 @@ export const debug = readable(isDebugMode);
 // application model
 export const history = writable([]);
 export const pool = derived([ metadata, history ], calculatePool);
-export const score = writable(193);
+export const score = writable(0);
 export const highscore = highscoreStore;
 export const country = writable();
 export const geojson = writable();
 
 // view state
 export const isLoading = writable(false);
-export const modal = writable('');
+export const modal = writable('splash');

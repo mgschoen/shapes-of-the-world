@@ -3,7 +3,7 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher();
 
-    import { metadata } from '../store';
+    import { isLoading, metadata } from '../store';
     import Button from './Button.svelte';
 
     let input;
@@ -60,8 +60,14 @@
         }
     }
 
+    function onButtonClick() {
+        dispatch('submit', value);
+        value = '';
+    }
+
     $: value & updateSuggestions();
     $: canSubmit = $metadata && $metadata.countries && $metadata.countries.filter((country) => country.name === value).length === 1;
+    $: isButtonDisabled = $isLoading || !canSubmit;
 </script>
 
 <section class="fixed bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-auto z-10">
@@ -95,10 +101,11 @@
             bind:this={input}
             bind:value={value}
             on:keyup={onKeyUp}
+            disabled={$isLoading}
         />
         <Button
-            disabled={!canSubmit}
-            on:click={() => dispatch('update-requested')}
+            disabled={isButtonDisabled}
+            on:click={onButtonClick}
         >-></Button>
     </div>
 </section>

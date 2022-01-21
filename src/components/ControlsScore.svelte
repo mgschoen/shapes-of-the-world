@@ -22,7 +22,7 @@
                 {$highscore}
             </span>
             <span class="text-l font-black">
-                Highscore
+                highscore
             </span>
         </figure>
     {/if}
