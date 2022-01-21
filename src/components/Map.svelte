@@ -53,9 +53,10 @@
             mapboxgl.accessToken = $settings.mapboxPublicToken;
         }
         map = new mapboxgl.Map({
+            attributionControl: false,
             container: 'mapbox-root',
-            style: 'mapbox://styles/argonns/ckxf3oh2k2xmo15phqc819m15',
             renderWorldCopies: false,
+            style: 'mapbox://styles/argonns/ckxf3oh2k2xmo15phqc819m15',
         });
         map.on('load', () => isMapLoaded = true);
     });

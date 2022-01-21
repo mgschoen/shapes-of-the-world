@@ -36,6 +36,7 @@ export const debug = readable(isDebugMode);
 // application model
 export const history = writable([]);
 export const pool = derived([ metadata, history ], calculatePool);
+export const score = writable(193);
 export const highscore = highscoreStore;
 export const country = writable();
 export const geojson = writable();

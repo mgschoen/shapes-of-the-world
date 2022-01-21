@@ -6,6 +6,7 @@
     import ControlsDebuggingHandles from './components/ControlsDebuggingHandles.svelte';
     import ControlsDebuggingOutput from './components/ControlsDebuggingOutput.svelte';
     import ControlsInput from './components/ControlsInput.svelte';
+    import ControlsScore from './components/ControlsScore.svelte';
     import Map from './components/Map.svelte';
     import Modal from './components/Modal.svelte';
     import ModalViewGameOver from './components/ModalViewGameOver.svelte';
@@ -32,6 +33,8 @@
 <main class="text-slate-800">
     {#if !$modal}
         <ControlsInput on:update-requested={updateCountry} />
+        <ControlsScore />
+    {/if}
 
     {#if $debug}
         <ControlsDebuggingHandles bind:showMap={showMap} />
