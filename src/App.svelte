@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { country, geojson, metadata, isLoading, modal } from './store';
+    import { country, debug, geojson, isLoading, metadata, modal } from './store';
     import { fetchJson } from './utils';
 
     import ControlsDebuggingHandles from './components/ControlsDebuggingHandles.svelte';
@@ -30,11 +30,12 @@
 </script>
 
 <main class="text-slate-800">
-    <ControlsDebuggingHandles bind:showMap={showMap} on:update-requested={updateCountry}/>
-    <ControlsDebuggingOutput />
-
     {#if !$modal}
         <ControlsInput />
+
+    {#if $debug}
+        <ControlsDebuggingHandles bind:showMap={showMap} />
+        <ControlsDebuggingOutput />
     {/if}
     
     {#if showMap}

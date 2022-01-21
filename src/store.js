@@ -26,9 +26,12 @@ try {
 const highscoreStore = writable(localStorageHighscore || 0);
 highscoreStore.subscribe(($highscore) => localStorage.setItem(highscoreLocalStorageKey, '' + $highscore));
 
+const isDebugMode = new URLSearchParams(window.location.search).get('debug') === 'true';
+
 // static globals
 export const settings = readable(settingsData);
 export const metadata = writable();
+export const debug = readable(isDebugMode);
 
 // application model
 export const history = writable([]);
@@ -39,6 +42,4 @@ export const geojson = writable();
 
 // view state
 export const isLoading = writable(false);
-// TODO Debugging only
 export const modal = writable('');
-// END TODO
