@@ -1,5 +1,8 @@
 <script>
     import { onMount } from 'svelte';
+    import { createEventDispatcher } from 'svelte'
+    const dispatch = createEventDispatcher();
+
     import { metadata } from '../store';
     import Button from './Button.svelte';
 
@@ -95,7 +98,7 @@
         />
         <Button
             disabled={!canSubmit}
-            on:click={() => {}}
+            on:click={() => dispatch('update-requested')}
         >-></Button>
     </div>
 </section>
