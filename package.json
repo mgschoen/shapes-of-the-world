@@ -1,8 +1,7 @@
 {
   "name": "playground-template",
   "version": "1.0.0",
-  "description": "",
-  "main": "rollup.config.js",
+  "description": "A map-based country guessing game for the browser",
   "scripts": {
     "build": "webpack",
     "dev": "webpack serve --open"
