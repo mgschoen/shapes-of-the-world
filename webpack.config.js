@@ -58,7 +58,7 @@ module.exports = {
   output: {
       filename: '[name].[fullhash].js',
       path: path.resolve(__dirname, 'dist'),
-      clean: true,
+      clean: false,
   },
   devServer: {
     hot: false,
