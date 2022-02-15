@@ -74,7 +74,7 @@
     <h2 class="hidden">Select your answer</h2>
     {#if suggestions.length && !canSubmit}
         <ul
-            class="bg-white mb-2 rounded-md shadow-sm flex flex-col"
+            class="bg-white mb-2 rounded-md shadow-sm flex flex-col max-h-48 md:max-h-80 overflow-y-scroll"
             bind:this={list}
             on:keyup={onKeyUp}
         >
