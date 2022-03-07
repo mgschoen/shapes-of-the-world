@@ -1,13 +1,11 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-    import { country, highscore } from '../store';
+    import { country, highscore, modal } from '../store';
     import Button from './Button.svelte';
     import ModalHeadline from './ModalHeadline.svelte';
     import ModalParagraph from './ModalParagraph.svelte';
 
     export let showHighscore = false;
 
-    let dispatch = createEventDispatcher();
     let solution = '';
 
     $: solution = $country && $country.name ? $country.name : '';
@@ -33,5 +31,5 @@
 {/if}
 
 <div class="text-center">
-    <Button on:click={() => dispatch('restart-game')}>Restart Game</Button>
+    <Button on:click={() => $modal = ''}>Restart Game</Button>
 </div>

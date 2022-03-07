@@ -28,12 +28,24 @@
             $highscore = $score;
             hasHighscore = true;
         }
+        $score = 0;
+        $history = [];
         $modal = 'game-over';
     }
 
-    function onStartGame() {
-        $modal = '';
+    function restartGame() {
+        $country = null;
+        $geojson = null;
+        hasHighscore = false;
         setNextCountry();
+    }
+
+    function onModalClosed(event) {
+        if (event.detail === 'splash') {
+            setNextCountry();
+        } else if (event.detail === 'game-over') {
+            restartGame();
+        }
     }
 
     function onSubmit (event) {
@@ -44,16 +56,6 @@
         } else {
             endGame();
         }
-    }
-
-    function onRestartGame() {
-        $score = 0;
-        $history = [];
-        $country = null;
-        $geojson = null;
-        $modal = '';
-        hasHighscore = false;
-        setNextCountry();
     }
 
     onMount(async () => {
@@ -77,14 +79,11 @@
     <Map geojson={$geojson}></Map>
     
     {#if $modal}
-        <Modal>
+        <Modal on:closed={onModalClosed}>
             {#if $modal == 'splash'}
-                <ModalViewSplash on:start-game={onStartGame} />
+                <ModalViewSplash />
             {:else if $modal == 'game-over'}
-                <ModalViewGameOver
-                    showHighscore={hasHighscore}
-                    on:restart-game={onRestartGame}
-                />
+                <ModalViewGameOver showHighscore={hasHighscore} />
             {/if}
         </Modal>
     {/if}

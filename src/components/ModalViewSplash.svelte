@@ -1,13 +1,10 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-    import { highscore } from '../store';
+    import { highscore, modal } from '../store';
     import Button from './Button.svelte';
     import ModalHeadline from './ModalHeadline.svelte';
     import ModalParagraph from './ModalParagraph.svelte';
 
     export let disabled = false;
-
-    const dispatch = createEventDispatcher();
 </script>
 
 <ModalHeadline color="text-teal-900">
@@ -26,7 +23,7 @@
 
 <div class="text-center">
     <Button
-        on:click={() => dispatch('start-game')}
+        on:click={() => $modal = ''}
         bind:disabled={disabled}
     >Start Game</Button>
 </div>
