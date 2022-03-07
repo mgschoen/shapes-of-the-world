@@ -97,7 +97,7 @@
         <input
             type="text"
             placeholder="Your answer..."
-            class="p-4 text-xl shadow-md rounded-md flex-grow md:w-96"
+            class="p-4 text-xl shadow-md rounded-md flex-grow w-full md:w-96"
             bind:this={input}
             bind:value={value}
             on:keyup={onKeyUp}
