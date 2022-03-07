@@ -106,6 +106,16 @@
         <Button
             disabled={isButtonDisabled}
             on:click={onButtonClick}
-        >-></Button>
+        >
+            <svg width="24" height="24">
+                <polyline
+                    points="8,4 16,12 8,20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                ></polyline>
+            </svg>
+        </Button>
     </div>
 </section>
