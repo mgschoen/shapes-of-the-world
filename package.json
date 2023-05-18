@@ -1,5 +1,5 @@
 {
-  "name": "playground-template",
+  "name": "shapes-of-the-world",
   "version": "1.0.0",
   "description": "A map-based country guessing game for the browser",
   "scripts": {
