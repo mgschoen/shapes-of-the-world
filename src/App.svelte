@@ -17,7 +17,7 @@
 
     async function setNextCountry() {
         $isLoading = true;
-        const randomIndex = Math.round(Math.random() * $pool.length);
+        const randomIndex = Math.floor(Math.random() * $pool.length);
         const nextCountryShort = $pool[randomIndex];
         $country = $metadata.countries.find((country) => country.short === nextCountryShort);
         $geojson = await fetchJson(`/data/${$country.short}.geojson`);
