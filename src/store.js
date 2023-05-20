@@ -13,9 +13,13 @@ const calculatePool = ([ $metadata, $history ]) => {
     if (!$metadata || !Array.isArray($metadata.countries)) {
         return [];
     }
-    return $metadata.countries
-        .map((country) => country.short)
-        .filter((country) => !$history.includes(country));
+    const remainingCountries = $metadata.countries
+        .filter((country) => !$history.includes(country.short))
+        .toSorted((a, b) => b.score - a.score)
+        .map((country) => country.short);
+    
+    const windowSize = Math.min(remainingCountries.length, 20);
+    return remainingCountries.slice(0, windowSize);
 };
 
 const highscoreLocalStorageKey = 'map-quiz_highscore';
