@@ -1,6 +1,7 @@
 <script>
+    import distance from '@turf/distance';
     import { onMount } from 'svelte';
-    import { country, debug, geojson, highscore, history, isLoading, metadata, modal, pool, score } from './store';
+    import { country, debug, geojson, highscore, history, isLoading, metadata, modal, pool, score, userCountry } from './store';
     import { fetchJson } from './utils';
 
     import ControlsDebuggingHandles from './components/ControlsDebuggingHandles.svelte';
@@ -58,9 +59,42 @@
         }
     }
 
+    async function initMetadata() {
+        $metadata = await fetchJson('/data/_meta.json');
+        $userCountry = $metadata.countries.find((country) => country.short === 'DEU');
+        let processedCountries = $metadata.countries.map((country) => ({
+            ...country,
+            distance: distance($userCountry.center, country.center),
+        }));
+
+        const areaValues = processedCountries.map((country) => country.area);
+        const areaMin = Math.min(...areaValues);
+        const areaMax = Math.max(...areaValues);
+        
+        const distanceValues = processedCountries.map((country) => country.distance);
+        const distanceMin = Math.min(...distanceValues);
+        const distanceMax = Math.max(...distanceValues);
+
+        processedCountries = processedCountries.map((country) => {
+            // 1 for the largest remaining country, 0 for the smallest
+            const areaScore = (country.area - areaMin) / (areaMax - areaMin);
+
+            // 1 for the nearest remaining country, 0 for the furthest
+            const distanceInverted = distanceMax - country.distance;
+            const distanceScore = (distanceInverted - distanceMin) / (distanceMax - distanceMin);
+
+            return {
+                ...country,
+                score: (areaScore + distanceScore) / 2,
+            }
+        });
+
+        $metadata.countries = processedCountries;
+    }
+
     onMount(async () => {
         $isLoading = true;
-        $metadata = await fetchJson('/data/_meta.json');
+        await initMetadata();
         $isLoading = false;
     });
 </script>

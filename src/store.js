@@ -31,6 +31,7 @@ const isDebugMode = new URLSearchParams(window.location.search).get('debug') ===
 // static globals
 export const settings = readable(settingsData);
 export const metadata = writable();
+export const userCountry = writable();
 export const debug = readable(isDebugMode);
 
 // application model
